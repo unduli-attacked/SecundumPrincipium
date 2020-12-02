@@ -45,11 +45,21 @@ string Gear::getItem(int index_) {
 }
 
 int Gear::useItem(string itemName_) {
+    int index = -1;
     for (int i = 0; i < slotsFilled; i++) {
         if (inventory[i] == itemName_) {
             inventory[i] = "";
-            return 1;
+            index=i;
+            i=slotsFilled;
         }
+    }
+    if(index!=-1){
+        for(int i=index; i<GEAR_SLOTS-1; i++){
+            inventory[i] = inventory[i+1];
+        }
+        inventory[GEAR_SLOTS-1] = "";
+        slotsFilled--;
+        return 1;
     }
     return -1; //none found
 }
@@ -64,10 +74,10 @@ string Gear::format() {
                 str += "["+inventory[i + j] + "], ";
             }
         }
-        if (inventory[i + 4] == "") {
+        if (inventory[i + 3] == "") {
             str += "[      ]\n";
         } else {
-            str += "["+inventory[i + 4]+"]" + "\n";
+            str += "["+inventory[i + 3]+"]\n";
         }
     }
     return str;

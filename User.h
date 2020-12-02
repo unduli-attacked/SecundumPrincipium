@@ -14,7 +14,7 @@
 
 using namespace std;
 
-class User {
+class User : public TeamMember{
 public:
     User();
 
@@ -28,12 +28,10 @@ public:
     int removeTeamMember(TeamMember member_);
 
     TeamMember getTeamMember(string first_, string last_);
-
-    void setGear(Gear newGear_);
-
-    Gear getGear();
-    void addGearItem(string item);
-    //TODO make sure doing user.getGear().fillSlot("item") works the way it should
+    TeamMember getTeamMember(int index);
+    int getHighestSkillLevel(string skillName);
+    TeamMember getLowestSkilled(string skillName);
+    TeamMember getHighestSkilled(string skillName);
     int getTeamConf();
 
     void setTeamConf(int conf_);
@@ -69,7 +67,6 @@ private:
     int health;
     static const int TEAM_SLOTS = 6;
     int teamSlotsFilled;
-    Gear inventory;
     TeamMember team[TEAM_SLOTS];
     int progress; // out of 10
     static const int NUM_SKILLS = 12;
