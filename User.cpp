@@ -120,9 +120,9 @@ TeamMember User::getTeamMember(int index) {
 
 int User::getHighestSkillLevel(string skillName) {
     int highestLevel = 0;
-    for (TeamMember teamMember : team) {
-        if (teamMember.getSkill(skillName).getSkillLevel() > highestLevel) {
-            highestLevel = teamMember.getSkill(skillName).getSkillLevel();
+    for (int i=0; i<teamSlotsFilled; i++) {
+        if (team[i].getSkill(skillName).getSkillLevel() > highestLevel) {
+            highestLevel = team[i].getSkill(skillName).getSkillLevel();
         }
     }
     if (getSkill(skillName).getSkillLevel() > highestLevel) {
@@ -132,24 +132,27 @@ int User::getHighestSkillLevel(string skillName) {
 }
 
 TeamMember User::getLowestSkilled(string skillName) {
-    int lowestLevel = 0;
+    int lowestLevel = 11;
     TeamMember lowestMember;
-    for (TeamMember teamMember : team) {
-        if (teamMember.getSkill(skillName).getSkillLevel() < lowestLevel) {
-            lowestLevel = teamMember.getSkill(skillName).getSkillLevel();
-            lowestMember = teamMember;
+    for (int i=0; i<teamSlotsFilled; i++) {
+        if (team[i].getSkill(skillName).getSkillLevel() < lowestLevel) {
+            lowestLevel = team[i].getSkill(skillName).getSkillLevel();
+            lowestMember = team[i];
         }
+    }
+    if (getSkill(skillName).getSkillLevel() < lowestLevel) {
+        return *this; //TODO hope this works
     }
     return lowestMember;
 }
 
 TeamMember User::getHighestSkilled(string skillName) {
-    int highestLevel = 0;
+    int highestLevel = -1;
     TeamMember highestMember;
-    for (TeamMember teamMember : team) {
-        if (teamMember.getSkill(skillName).getSkillLevel() > highestLevel) {
-            highestLevel = teamMember.getSkill(skillName).getSkillLevel();
-            highestMember = teamMember;
+    for (int i=0; i<teamSlotsFilled; i++) {
+        if (team[i].getSkill(skillName).getSkillLevel() > highestLevel) {
+            highestLevel = team[i].getSkill(skillName).getSkillLevel();
+            highestMember = team[i];
         }
     }
     if (getSkill(skillName).getSkillLevel() > highestLevel) {

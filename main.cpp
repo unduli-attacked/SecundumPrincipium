@@ -3,6 +3,7 @@
 #include "User.h"
 #include <iomanip>
 #include <fstream>
+#include <windows.h>
 
 using namespace std;
 User player;
@@ -35,13 +36,13 @@ bool manOverboard() {
     TeamMember manOverboard = player.getLowestSkilled("dexterity");
     cout << "You have departed your flotilla with your team and begun your journey" << endl;
     cout << "As you are travelling, " << manOverboard.getFirstName() << " falls overboard." << endl;
-    if (player.getHighestSkillLevel("swimming") > 5) {
+    if (player.getHighestSkillLevel("swimming") > 5+(rand()%5)) {
         cout << player.getHighestSkilled("swimming").getFirstName() << " is the best swimmer on your team, and they are able to bring " << manOverboard.getFirstName() << " back aboard." << endl;
-        if (player.getHighestSkillLevel("medical") > 7) {
+        if (player.getHighestSkillLevel("medical") > 7+(rand()%4)) {
             cout << player.getHighestSkilled("medical").getFirstName() << " is the best medic on your team, and are able to revive " << manOverboard.getFirstName() << ". Your journey continues."
                  << endl;
             return false;
-        } else if (player.getHighestSkillLevel("medical") + 3 > 7 && inventory.hasMedKit()) {
+        } else if (player.getHighestSkillLevel("medical") + 3 > 7+(rand()%4) && inventory.hasMedKit()) {
             inventory.useItem("medicalKit");
             cout << player.getHighestSkilled("medical").getFirstName() << " is the best medic on your team, and is able to revive " << manOverboard.getFirstName()
                  << " with the help of one of your medical kits. Your journey continues." << endl;
@@ -53,7 +54,7 @@ bool manOverboard() {
             player.setTeamConf(player.getTeamConf() - 20);
             return false;
         }
-    } else if (player.getHighestSkillLevel("swimming") < 2) {
+    } else if (player.getHighestSkillLevel("swimming") < 2+(rand()%5)) {
         cout << player.getHighestSkilled("swimming").getFirstName() << " is the best swimmer on your team, but they are unable to save " << manOverboard.getFirstName() << "." << endl;
         cout << manOverboard.getFirstName() << " drowns, and your team loses confidence in you." << endl;
         cout << "Because " << player.getHighestSkilled("swimming").getFirstName()
@@ -78,11 +79,11 @@ bool raiders() {
         cin >> choice;
         switch (choice) {
             case 1:
-                if (player.getHighestSkillLevel("charisma") + player.getHighestSkillLevel("bartering") > 8) {
+                if (player.getHighestSkillLevel("charisma") + player.getHighestSkillLevel("bartering") > 8+(rand()%3)) {
                     cout << player.getHighestSkilled("charisma").getFirstName() << ", and " << player.getHighestSkilled("bartering").getFirstName() << ", and "
                          << " are able to convince the raiders, who are sympathetic to your quest, to let you go." << endl;
                     return false;
-                } else if (player.getHighestSkillLevel("charisma") + player.getHighestSkillLevel("bartering") + 5 > 8 &&
+                } else if (player.getHighestSkillLevel("charisma") + player.getHighestSkillLevel("bartering") + 5 > 8+(rand()%3) &&
                            inventory.countItems("tradeableGoods") > 0) {
                     cout << player.getHighestSkilled("charisma").getFirstName() << ", and " << player.getHighestSkilled("bartering").getFirstName() << ", and "
                          << " are able to convince the raiders to let you go by giving them one of your Tradeable Goods."
@@ -95,13 +96,13 @@ bool raiders() {
                 }
                 break;
             case 2:
-                if (player.getHighestSkillLevel("combat") > 7) {
+                if (player.getHighestSkillLevel("combat") > 7+(rand()%5)) {
                     cout << "You are able to fight off the raiders, winning your freedom to continue your quest." << endl;
                     cout << "However, " << player.getLowestSkilled("strength").getFirstName() << " is killed in the fighting, and your team's confidence in you is reduced." << endl;
                     player.removeTeamMember(player.getLowestSkilled("strength"));
                     player.setTeamConf(player.getTeamConf() - 20);
                     return false;
-                } else if (player.getHighestSkillLevel("combat") + 3 > 7 && inventory.hasWeapons()) {
+                } else if (player.getHighestSkillLevel("combat") + 3 > 7+(rand()%5) && inventory.hasWeapons()) {
                     cout << "You are able to fight off the raiders using one of your Weapons, winning your freedom to continue your quest." << endl;
                     cout << "However, " << player.getLowestSkilled("strength").getFirstName() << " is killed in the fighting, and your team's confidence in you is reduced." << endl;
                     player.removeTeamMember(player.getLowestSkilled("strength"));
@@ -128,11 +129,11 @@ bool witches() {
         cin >> methodChoice;
         switch (methodChoice) {
             case 1:
-                if (player.getHighestSkillLevel("charisma") + player.getHighestSkillLevel("bartering") > 8 && player.getHighestSkillLevel("earnestness") > 6) {
+                if (player.getHighestSkillLevel("charisma") + player.getHighestSkillLevel("bartering") > 8+(rand()%5) && player.getHighestSkillLevel("earnestness") > 6+(rand()%5)) {
                     cout << player.getHighestSkilled("charisma").getFirstName() << ", " << player.getHighestSkilled("bartering").getFirstName() << ", and "
                          << player.getHighestSkilled("earnestness").getFirstName() << " are able to convince the witches to give you the coordinates." << endl;
                     return false;
-                } else if (player.getHighestSkillLevel("charisma") + player.getHighestSkillLevel("bartering") + 3 > 8 && player.getHighestSkillLevel("earnestness") > 6 &&
+                } else if (player.getHighestSkillLevel("charisma") + player.getHighestSkillLevel("bartering") + 3 > 8+(rand()%5) && player.getHighestSkillLevel("earnestness") > 6+(rand()%5) &&
                            inventory.countItems("tradeableGoods") > 0) {
                     cout << player.getHighestSkilled("charisma").getFirstName() << ", " << player.getHighestSkilled("bartering").getFirstName() << ", and "
                          << player.getHighestSkilled("earnestness").getFirstName() << " are able to convince the witches to give you the coordinates by giving them one of your Tradeable Goods."
@@ -182,10 +183,10 @@ bool navigation() {
         cin >> choice;
         switch (choice) {
             case 1:
-                if (player.getHighestSkillLevel("navigation") > 8) {
+                if (player.getHighestSkillLevel("navigation") > 8+(rand()%4)) {
                     cout << player.getHighestSkilled("navigation").getFirstName() << " uses their navigation skills to find the Secundum Principium." << endl;
                     return false;
-                } else if (player.getHighestSkillLevel("navigation") + 3 > 8 && inventory.hasStarChart()) {
+                } else if (player.getHighestSkillLevel("navigation") + 3 > 8+(rand()%4) && inventory.hasStarChart()) {
                     cout << player.getHighestSkilled("navigation").getFirstName() << " uses the Star Chart to find the Secundum Principum." << endl;
                     return false;
                 } else {
@@ -194,7 +195,7 @@ bool navigation() {
                 }
                 break;
             case 2:
-                if (player.getHighestSkillLevel("instinct") + (rand() % 11) > 15) {
+                if (player.getHighestSkillLevel("instinct") + (rand() % 11) > 15+(rand()%5)) {
                     cout << "By some miracle, you've guessed your way to the Secundum Principium!" << endl;
                     return false;
                 } else {
@@ -224,7 +225,7 @@ bool submersion() {
             printTeam(3, tempTeam, player.getTeamSlotsFilled());
             cout << "Select a team member to LEAVE BEHIND. (1-" << player.getTeamSlotsFilled() << ")" << endl;
             cin >> elimChoice;
-            if (elimChoice > 0 && elimChoice < player.getTeamSlotsFilled()) {
+            if (elimChoice > 0 && elimChoice < player.getTeamSlotsFilled()+1) {
                 cout << player.getTeamMember(elimChoice - 1).getFirstName() << " " << player.getTeamMember(elimChoice - 1).getLastName() << " has been left behind." << endl;
                 player.removeTeamMember(player.getTeamMember(elimChoice - 1));
             } else {
@@ -250,8 +251,8 @@ bool oneFalseStep() {
     while (inventory.hasDivingGear()) {
         inventory.useItem("divingGear");
     }
-    cout << "The hallway beyond the airlock is in shadow, and likely contains many booby traps. To navigate it, you must use a combination of the following skills:\n"
-         << "1. Intelligence: Level " << player.getHighestSkillLevel("intelligence")
+    cout << "The hallway beyond the airlock is in shadow, and likely contains many booby traps. To navigate it, you must use a combination of the following skills:" << endl;
+    cout << "1. Intelligence: Level " << player.getHighestSkillLevel("intelligence")
          << "\n2. Instinct: Level " << player.getHighestSkillLevel("instinct")
          << "\n3. Technology: Level " << player.getHighestSkillLevel("technology")
          << "\n4. Navigation: Level " << player.getHighestSkillLevel("navigation") << endl;
@@ -259,7 +260,7 @@ bool oneFalseStep() {
     int sk1, sk2;
     cin >> sk1 >> sk2;
     if ((sk1 == 1 && sk2 == 2) || (sk2 == 1 && sk1 == 2)) {
-        if (player.getHighestSkillLevel("intelligence") + player.getHighestSkillLevel("instinct") > 13) {
+        if (player.getHighestSkillLevel("intelligence") + player.getHighestSkillLevel("instinct") > 13+(rand()%5)) {
             cout << player.getHighestSkilled("intelligence").getFirstName() << " and " << player.getHighestSkilled("instinct").getFirstName() << " lead you through the hallway unharmed." << endl;
             return false;
         } else {
@@ -267,11 +268,11 @@ bool oneFalseStep() {
             return true;
         }
     } else if ((sk1 == 1 && sk2 == 3) || (sk2 == 1 && sk1 == 3)) {
-        if (player.getHighestSkillLevel("intelligence") + player.getHighestSkillLevel("technology") > 14) {
+        if (player.getHighestSkillLevel("intelligence") + player.getHighestSkillLevel("technology") > 14+(rand()%5)) {
             cout << player.getHighestSkilled("intelligence").getFirstName() << " and " << player.getHighestSkilled("technology").getFirstName() << " lead you through the hallway unharmed." << endl;
             return false;
         } else if (inventory.hasScanner() && player.getHighestSkillLevel("intelligence") + player.getHighestSkillLevel("technology") > 7 &&
-                   player.getHighestSkillLevel("intelligence") + player.getHighestSkillLevel("technology") + 4 > 14) {
+                   player.getHighestSkillLevel("intelligence") + player.getHighestSkillLevel("technology") + 4 > 14+(rand()%5)) {
             cout << player.getHighestSkilled("intelligence").getFirstName() << " and " << player.getHighestSkilled("technology").getFirstName()
                  << " use the scanner to lead you through the hallway unharmed." << endl;
             return false;
@@ -280,7 +281,7 @@ bool oneFalseStep() {
             return true;
         }
     } else if ((sk1 == 2 && sk2 == 4) || (sk2 == 2 && sk1 == 4)) {
-        if (player.getHighestSkillLevel("instinct") + player.getHighestSkillLevel("navigation") > 13) {
+        if (player.getHighestSkillLevel("instinct") + player.getHighestSkillLevel("navigation") > 13+(rand()%5)) {
             cout << player.getHighestSkilled("instinct").getFirstName() << " and " << player.getHighestSkilled("navigation").getFirstName() << " lead you through the hallway unharmed." << endl;
             return false;
         } else {
@@ -327,7 +328,7 @@ bool oneFalseStep() {
             default:
                 sum += 0;
         }
-        if (sum > 16) {
+        if (sum > 16+(rand()%5)) {
             cout << "You make it through the hallway unharmed." << endl;
             return false;
         } else {
@@ -346,7 +347,7 @@ bool activation() {
         cin >> userChoice;
         switch (userChoice) {
             case 1:
-                if (player.getHighestSkillLevel("intelligence") + player.getHighestSkillLevel("technology") > 13) {
+                if (player.getHighestSkillLevel("intelligence") + player.getHighestSkillLevel("technology") > 13+(rand()%5)) {
                     cout << player.getHighestSkilled("intelligence").getFirstName() << " and " << player.getHighestSkilled("technology").getFirstName() << " successfully activate the technology."
                          << endl;
                     return false;
@@ -356,7 +357,7 @@ bool activation() {
                 }
                 break;
             case 2:
-                if (player.getHighestSkillLevel("instinct") + (rand() % 10) > 13) {
+                if (player.getHighestSkillLevel("instinct") + (rand() % 10) > 13+(rand()%5)) {
                     cout << player.getHighestSkilled("instinct").getFirstName() << " is able to activate the technology." << endl;
                     return false;
                 } else {
@@ -373,7 +374,7 @@ bool activation() {
 bool pureOfSpirit() {
     cout << "The Secundum Principium has been activated! To pass through it, the spirit of each team member must be weighed. Only some will make it." << endl;
     for (int i = 0; i < player.getTeamSlotsFilled(); i++) {
-        if (player.getTeamMember(i).getSkill("earnestness").getSkillLevel() > 6 || player.getTeamMember(i).getSkill("charisma").getSkillLevel() > 9) {
+        if (player.getTeamMember(i).getSkill("earnestness").getSkillLevel() > 6+(rand()%2) || player.getTeamMember(i).getSkill("charisma").getSkillLevel() > 9) {
             cout << player.getTeamMember(i).getFirstName() << " makes it through!" << endl;
         } else {
             cout << player.getTeamMember(i).getFirstName() << " is instantly vaporized." << endl;
@@ -381,7 +382,7 @@ bool pureOfSpirit() {
             player.setTeamConf(player.getTeamConf() - 10);
         }
     }
-    if (player.getSkill("earnestness").getSkillLevel() > 6 || player.getSkill("charisma").getSkillLevel() > 9) {
+    if (player.getSkill("earnestness").getSkillLevel() > 6+(rand()%2) || player.getSkill("charisma").getSkillLevel() > 9) {
         cout << "You make it through!" << endl;
         return false;
     } else {
@@ -490,7 +491,7 @@ int main() {
 //        cout << i + 1 << ": " << community[i].format() << endl;
     }
     string str = "";
-    int numPerRow = 6;
+    int numPerRow = 4;
     printTeam(numPerRow, community, 12);
     int numChoice = 0;
     vector<int> prevChosen;
@@ -711,6 +712,8 @@ int main() {
     int score = player.getProgress();
     if (player.getProgress() >= 8) {
         score += player.getTeamConf();
+    }else if(player.getProgress() >= 8){
+        score += player.getTeamConf()/2;
     }
     ifstream file;
     file.open("../highScore.txt");
@@ -727,7 +730,7 @@ int main() {
         cout << "YOU WIN" << endl;
     }
     cout << "Your score was: " << score << endl;
-    cout << "The high score is: " << highScore << endl;
+    cout << "The high score is " << highScore << " held by " << highScorer << "." << endl;
     if (score >= stoi(highScore)) {
         cout << "You've beat the high score!" << endl;
         ofstream fileW;
@@ -736,6 +739,6 @@ int main() {
         fileW << score << "\n";
         fileW.close();
     }
-
+    Sleep(30000);
     return 0;
 }
