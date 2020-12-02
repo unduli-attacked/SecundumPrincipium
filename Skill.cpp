@@ -39,7 +39,7 @@ Skill::Skill(string skillName_, int skillLevel_) {
         boostedBy = "weapons";
     } else if (skillName_ == "navigation") {
         boostedBy = "starChart";
-    }else if(skillName_=="technology"){
+    } else if (skillName_ == "technology") {
         boostedBy = "scanner";
     } else {
         boostedBy = "";

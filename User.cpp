@@ -86,19 +86,19 @@ int User::addTeamMember(TeamMember member_) {
 }
 
 int User::removeTeamMember(TeamMember member_) {
-    int index =-1;
+    int index = -1;
     for (int i = 0; i < teamSlotsFilled; i++) {
         if (team[i].equals(member_)) { //TODO check
             team[i] = TeamMember();
             index = i;
-            i=teamSlotsFilled;
+            i = teamSlotsFilled;
         }
     }
-    if(index!=-1){
-        for(int i=index; i<TEAM_SLOTS-1; i++){
-            team[i] = team[i+1];
+    if (index != -1) {
+        for (int i = index; i < TEAM_SLOTS - 1; i++) {
+            team[i] = team[i + 1];
         }
-        team[TEAM_SLOTS-1] = TeamMember();
+        team[TEAM_SLOTS - 1] = TeamMember();
         teamSlotsFilled--;
         return 1;
     }
@@ -120,12 +120,12 @@ TeamMember User::getTeamMember(int index) {
 
 int User::getHighestSkillLevel(string skillName) {
     int highestLevel = 0;
-    for(TeamMember teamMember : team){
-        if(teamMember.getSkill(skillName).getSkillLevel() > highestLevel){
+    for (TeamMember teamMember : team) {
+        if (teamMember.getSkill(skillName).getSkillLevel() > highestLevel) {
             highestLevel = teamMember.getSkill(skillName).getSkillLevel();
         }
     }
-    if(getSkill(skillName).getSkillLevel() > highestLevel){
+    if (getSkill(skillName).getSkillLevel() > highestLevel) {
         return getSkill(skillName).getSkillLevel();
     }
     return highestLevel;
@@ -134,8 +134,8 @@ int User::getHighestSkillLevel(string skillName) {
 TeamMember User::getLowestSkilled(string skillName) {
     int lowestLevel = 0;
     TeamMember lowestMember;
-    for(TeamMember teamMember : team){
-        if(teamMember.getSkill(skillName).getSkillLevel() < lowestLevel){
+    for (TeamMember teamMember : team) {
+        if (teamMember.getSkill(skillName).getSkillLevel() < lowestLevel) {
             lowestLevel = teamMember.getSkill(skillName).getSkillLevel();
             lowestMember = teamMember;
         }
@@ -146,17 +146,18 @@ TeamMember User::getLowestSkilled(string skillName) {
 TeamMember User::getHighestSkilled(string skillName) {
     int highestLevel = 0;
     TeamMember highestMember;
-    for(TeamMember teamMember : team){
-        if(teamMember.getSkill(skillName).getSkillLevel() > highestLevel){
+    for (TeamMember teamMember : team) {
+        if (teamMember.getSkill(skillName).getSkillLevel() > highestLevel) {
             highestLevel = teamMember.getSkill(skillName).getSkillLevel();
             highestMember = teamMember;
         }
     }
-    if(getSkill(skillName).getSkillLevel() > highestLevel){
+    if (getSkill(skillName).getSkillLevel() > highestLevel) {
         return *this; //TODO hope this works
     }
     return highestMember;
 }
+
 int User::getTeamConf() {
     return teamConf;
 }

@@ -14,7 +14,7 @@
 
 using namespace std;
 
-class User : public TeamMember{
+class User : public TeamMember {
 public:
     User();
 
@@ -28,10 +28,15 @@ public:
     int removeTeamMember(TeamMember member_);
 
     TeamMember getTeamMember(string first_, string last_);
+
     TeamMember getTeamMember(int index);
+
     int getHighestSkillLevel(string skillName);
+
     TeamMember getLowestSkilled(string skillName);
+
     TeamMember getHighestSkilled(string skillName);
+
     int getTeamConf();
 
     void setTeamConf(int conf_);
